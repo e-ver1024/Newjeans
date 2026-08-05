@@ -376,9 +376,14 @@
   .photoCap{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;text-align:center;color:#555;margin-top:-2px}
 
   #radioBody{--skin-l:#b8a07a;--skin-m:#9a8460;--skin-d:#7a6747;--skin-h:#6b5942;
-    position:relative;background:linear-gradient(180deg,var(--skin-l) 0%, var(--skin-m) 50%, var(--skin-d) 100%);
-    border:3px solid var(--ink);border-radius:14px;padding:24px 30px;
-    box-shadow:8px 8px 0 rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.25), inset 0 -3px 0 rgba(0,0,0,.3);
+    position:relative;background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.04) 0 2px, transparent 2px 5px),
+      linear-gradient(180deg,var(--skin-l) 0%, var(--skin-m) 50%, var(--skin-d) 100%);
+    border:3px solid var(--ink);border-radius:18px;padding:24px 30px;
+    box-shadow:8px 8px 0 rgba(0,0,0,.5),
+      inset 0 2px 0 rgba(255,255,255,.3),
+      inset 0 -3px 0 rgba(0,0,0,.35),
+      inset 0 0 0 2px rgba(212,195,160,.15);
     transition:background .35s ease}
   /* 皮肤配色 */
   #radioBody.skin-wood{--skin-l:#b8a07a;--skin-m:#9a8460;--skin-d:#7a6747;--skin-h:#6b5942}
@@ -388,39 +393,68 @@
   #radioBody.skin-orange{--skin-l:#e8a868;--skin-m:#c47838;--skin-d:#8a4a18;--skin-h:#6b3818}
   #radioBody.skin-green{--skin-l:#8ac478;--skin-m:#5a9444;--skin-d:#386a28;--skin-h:#284a18}
   #radioBody.skin-pink{--skin-l:#f0b8c8;--skin-m:#e6aebb;--skin-d:#c98490;--skin-h:#a8606a}
-  .radioHandle{position:absolute;top:-12px;width:38px;height:18px;background:var(--skin-h);
-    border:3px solid var(--ink);border-radius:6px 6px 0 0;transition:background .35s ease}
+  /* 顶部皮革提手 */
+  .radioHandle{position:absolute;top:-14px;width:42px;height:20px;
+    background:linear-gradient(180deg,var(--skin-h) 0%, var(--skin-d) 100%);
+    border:3px solid var(--ink);border-radius:8px 8px 0 0;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.2), inset 0 -2px 0 rgba(0,0,0,.3);
+    transition:background .35s ease}
   .radioHandle.left{left:30px}.radioHandle.right{right:30px}
+  /* 提手铆钉 */
+  .radioHandle::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #f0e0c0, #4a3a28);
+    box-shadow:0 1px 1px rgba(0,0,0,.5)}
+  /* 皮肤切换按钮 */
   #radioSkinBtn{position:absolute;left:10px;bottom:10px;width:30px;height:30px;
-    background:var(--skin-d);border:2px solid var(--ink);border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, var(--skin-l), var(--skin-d) 80%);
+    border:2px solid var(--ink);border-radius:50%;
     color:var(--cream);font-size:16px;line-height:1;padding:0;cursor:none;z-index:6;
     display:flex;align-items:center;justify-content:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.4);transition:transform .15s, background .35s}
-  #radioSkinBtn:hover{background:var(--skin-h)}
+    box-shadow:0 2px 0 rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.3);transition:transform .15s, background .35s}
+  #radioSkinBtn:hover{background:radial-gradient(circle at 30% 30%, var(--skin-m), var(--skin-h) 80%)}
   #radioSkinBtn:active{transform:translateY(2px)}
   #radioSkinBtn.spin{animation:skinSpin .5s ease}
   @keyframes skinSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  /* 顶部布局 */
   .radioTop{display:grid;grid-template-columns:70px 1fr 70px;gap:14px;align-items:center;margin-bottom:18px}
+  /* 喇叭网罩：金属拉丝纹理 + 同心圆 */
   .radioSpeaker{width:70px;height:90px;background:#2a2418;border:2px solid var(--ink);border-radius:50%;
     display:flex;align-items:center;justify-content:center;position:relative;
-    box-shadow:inset 0 0 12px rgba(0,0,0,.7)}
-  .speakerGrid{width:60px;height:80px;border-radius:50%;
+    box-shadow:inset 0 0 14px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.1)}
+  .speakerGrid{width:62px;height:82px;border-radius:50%;
     background:
-      radial-gradient(circle at 50% 50%, #6b5942 2px, transparent 3px) 0 0/12px 12px,
-      repeating-radial-gradient(circle at 50% 50%, #6b5942 0 1px, transparent 1px 6px);
-    opacity:.85}
-  .radioDisplay{background:#1a1d28;border:2px solid var(--ink);padding:8px 10px;
+      radial-gradient(circle at 50% 50%, #8a7a5a 2px, transparent 3px) 0 0/10px 10px,
+      repeating-radial-gradient(circle at 50% 50%, #6b5942 0 1px, transparent 1px 5px),
+      linear-gradient(45deg, rgba(255,255,255,.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.05) 50%, rgba(255,255,255,.05) 75%, transparent 75%);
+    opacity:.9;border:1px solid rgba(212,195,160,.2)}
+  /* LED 频率显示屏 */
+  .radioDisplay{background:linear-gradient(180deg,#0e1018 0%, #1a1d28 50%, #0e1018 100%);
+    border:2px solid var(--ink);padding:8px 10px;
     display:flex;flex-direction:column;align-items:center;gap:2px;
-    box-shadow:inset 0 0 14px rgba(122,153,188,.2);position:relative}
+    box-shadow:inset 0 0 16px rgba(122,153,188,.25), inset 0 1px 0 rgba(255,255,255,.08);
+    position:relative;border-radius:4px}
   .radioDisplay::after{content:"";position:absolute;inset:0;
-    background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px, transparent 1px 3px);
-    pointer-events:none}
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px, transparent 1px 3px);
+    pointer-events:none;border-radius:2px}
+  /* 频率刻度盘 */
+  .freqDial{display:flex;align-items:center;gap:1px;height:6px;margin-top:1px;width:100%;max-width:120px;justify-content:center}
+  .freqDial i{display:inline-block;width:1px;height:4px;background:var(--mint);opacity:.6}
+  .freqDial i.major{height:6px;opacity:.9}
+  .freqDial i.major.active{background:var(--pink);box-shadow:0 0 4px var(--pink)}
   .freqLabel{font-family:"Press Start 2P",monospace;font-size:7px;color:var(--mint);letter-spacing:2px}
-  .freqNum{font-family:"VT323",monospace;font-size:36px;color:var(--mint);text-shadow:0 0 8px var(--mint);
+  .freqNum{font-family:"VT323",monospace;font-size:36px;color:var(--mint);text-shadow:0 0 8px var(--mint), 0 0 16px rgba(122,193,140,.4);
     line-height:.9;letter-spacing:2px}
   .freqUnit{font-family:"Press Start 2P",monospace;font-size:6px;color:var(--denim);letter-spacing:2px}
   .trackName{font-family:"VT323",monospace;font-size:18px;color:var(--pink);letter-spacing:1px;
     margin-top:4px;text-shadow:0 0 6px rgba(230,174,187,.5)}
+  /* 加载进度条 */
+  .radioLoadBar{width:80%;height:3px;background:rgba(122,193,140,.15);margin-top:3px;
+    border-radius:2px;overflow:hidden;opacity:0;transition:opacity .2s}
+  .radioLoadBar.show{opacity:1}
+  .radioLoadBar .fill{height:100%;background:linear-gradient(90deg,var(--mint),var(--pink));
+    width:0%;transition:width .15s ease;box-shadow:0 0 4px var(--mint)}
+  .radioLoadBar .pct{position:absolute;font-family:"Press Start 2P",monospace;font-size:5px;
+    color:var(--mint);margin-top:6px;opacity:.8}
   .eqBars{display:flex;gap:2px;height:10px;align-items:flex-end;margin-top:2px}
   .eqBars span{display:inline-block;width:4px;height:3px;background:var(--mint);
     transition:height .1s ease}
@@ -431,29 +465,38 @@
   .eqBars.on span:nth-child(5){animation-delay:.4s}
   @keyframes eqbar{0%{height:3px}25%{height:8px}50%{height:5px}75%{height:10px}100%{height:4px}}
 
+  /* 底部控制条 */
   .radioBottom{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
-  .radioBtn{width:54px;height:48px;border:3px solid var(--ink);background:#d4c3a0;
+  .radioBtn{width:54px;height:48px;border:3px solid var(--ink);background:linear-gradient(180deg,#e0d2b0 0%, #d4c3a0 50%, #b8a07a 100%);
     color:var(--ink);font-family:"Press Start 2P",monospace;font-size:12px;
-    box-shadow:0 4px 0 #6b5942, 0 4px 0 3px var(--ink);
-    transition:transform .08s, box-shadow .08s;cursor:none}
-  .radioBtn:hover{background:#e0d2b0}
-  .radioBtn:active{transform:translateY(3px);box-shadow:0 1px 0 #6b5942, 0 1px 0 3px var(--ink)}
-  .radioBtn.play{background:var(--pink);color:var(--ink);width:62px}
-  .radioBtn.play:hover{background:#f0bdca}
-  .radioBtn.menu{font-size:14px;background:var(--mint);color:var(--ink)}
-  .radioBtn.menu:hover{background:#b9d8c4}
+    box-shadow:0 4px 0 #6b5942, 0 4px 0 3px var(--ink), inset 0 1px 0 rgba(255,255,255,.4);
+    transition:transform .08s, box-shadow .08s;cursor:none;border-radius:4px}
+  .radioBtn:hover{background:linear-gradient(180deg,#f0e0c0 0%, #e0d2b0 50%, #c8b088 100%)}
+  .radioBtn:active{transform:translateY(3px);box-shadow:0 1px 0 #6b5942, 0 1px 0 3px var(--ink), inset 0 1px 0 rgba(255,255,255,.4)}
+  .radioBtn.play{background:linear-gradient(180deg,#f0bdca 0%, var(--pink) 50%, var(--pink-deep) 100%);color:var(--ink);width:62px}
+  .radioBtn.play:hover{background:linear-gradient(180deg,#f5ced8 0%, #f0bdca 50%, var(--pink-deep) 100%)}
+  .radioBtn.menu{font-size:14px;background:linear-gradient(180deg,#cce8d4 0%, var(--mint) 50%, #8ac4a0 100%);color:var(--ink)}
+  .radioBtn.menu:hover{background:linear-gradient(180deg,#d8f0e0 0%, #b9d8c4 50%, #7ab490 100%)}
   .volWrap{display:flex;align-items:center;gap:6px}
   .volText{font-family:"Press Start 2P",monospace;font-size:7px;color:var(--cream-deep);letter-spacing:1px}
   .radioVol{-webkit-appearance:none;appearance:none;width:90px;height:6px;
-    background:linear-gradient(90deg,#3a4258, #7a99bc);outline:none;border:2px solid var(--ink);cursor:none}
+    background:linear-gradient(90deg,#3a4258, #7a99bc);outline:none;border:2px solid var(--ink);cursor:none;border-radius:3px}
   .radioVol::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:18px;
-    background:var(--pink);border:2px solid var(--ink);cursor:none;box-shadow:0 2px 0 var(--pink-deep)}
+    background:linear-gradient(180deg,#f0bdca 0%, var(--pink) 50%, var(--pink-deep) 100%);border:2px solid var(--ink);cursor:none;box-shadow:0 2px 0 var(--pink-deep), inset 0 1px 0 rgba(255,255,255,.3)}
   .radioVol::-moz-range-thumb{width:14px;height:18px;background:var(--pink);border:2px solid var(--ink);
     cursor:none;border-radius:0}
-  .radioKnob{position:absolute;bottom:-8px;width:24px;height:24px;border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, #d4c3a0, #7a6747 80%);
-    border:3px solid var(--ink);box-shadow:0 2px 2px rgba(0,0,0,.5)}
+  /* 调谐旋钮（底部装饰） */
+  .radioKnob{position:absolute;bottom:-10px;width:28px;height:28px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #f0e0c0 0%, #b8a07a 40%, #6b5942 90%);
+    border:3px solid var(--ink);
+    box-shadow:0 3px 3px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.3)}
+  .radioKnob::after{content:"";position:absolute;left:50%;top:3px;width:2px;height:10px;
+    background:var(--ink);transform:translateX(-50%);border-radius:1px}
   .radioKnob.left{left:18px}.radioKnob.right{right:18px}
+  /* 收音机底部铭牌 */
+  .radioBrand{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+    font-family:"Press Start 2P",monospace;font-size:6px;color:var(--skin-h);letter-spacing:2px;
+    opacity:.7;text-shadow:0 1px 0 rgba(255,255,255,.2)}
 
   #radioPlaylist{margin-top:18px;background:rgba(28,34,52,.85);border:3px solid var(--denim);
     box-shadow:4px 4px 0 rgba(0,0,0,.4);max-height:0;overflow:hidden;
@@ -691,7 +734,9 @@
                 <div class="freqLabel">FM</div>
                 <div class="freqNum" id="radioFreq">88.5</div>
                 <div class="freqUnit">MHz</div>
+                <div class="freqDial" id="radioDial"></div>
                 <div class="trackName" id="radioTrack">Attention</div>
+                <div class="radioLoadBar" id="radioLoadBar"><div class="fill"></div></div>
                 <div class="eqBars" id="radioEq">
                   <span></span><span></span><span></span><span></span><span></span>
                 </div>
@@ -713,6 +758,7 @@
             </div>
             <div class="radioKnob left"></div>
             <div class="radioKnob right"></div>
+            <div class="radioBrand">NJZ · PIXEL TUNER</div>
           </div>
 
           <!-- 歌单弹层 -->
@@ -2454,8 +2500,38 @@ const Radio = (()=>{
       audioEl.volume = vol;
       audioEl.load();
       audioEl.currentTime = 0;
+      // —— 加载进度条 ——
+      const loadBar=$('#radioLoadBar');
+      const loadFill=loadBar ? loadBar.querySelector('.fill') : null;
+      function showLoadBar(){
+        if(loadBar){ loadBar.classList.add('show'); loadFill.style.width='0%'; }
+      }
+      function hideLoadBar(){
+        if(loadBar){ loadBar.classList.remove('show'); if(loadFill) loadFill.style.width='100%'; }
+      }
+      showLoadBar();
+      const onProgress=()=>{
+        if(!audioEl.buffered || !audioEl.buffered.length || !loadFill) return;
+        const pct=(audioEl.buffered.end(audioEl.buffered.length-1) / audioEl.duration) * 100;
+        if(isFinite(pct)) loadFill.style.width=Math.min(100, pct)+'%';
+      };
+      const onCanPlay=()=>{
+        hideLoadBar();
+        audioEl.removeEventListener('progress', onProgress);
+        audioEl.removeEventListener('canplay', onCanPlay);
+        audioEl.removeEventListener('error', onError);
+      };
+      const onError=()=>{
+        hideLoadBar();
+        audioEl.removeEventListener('progress', onProgress);
+        audioEl.removeEventListener('canplay', onCanPlay);
+        audioEl.removeEventListener('error', onError);
+      };
+      audioEl.addEventListener('progress', onProgress);
+      audioEl.addEventListener('canplay', onCanPlay);
+      audioEl.addEventListener('error', onError);
       const p = audioEl.play();
-      if(p && p.catch){ p.catch(err=>{ console.error('[Radio] 音频播放失败:', err, track.audio); }); }
+      if(p && p.catch){ p.catch(err=>{ console.error('[Radio] 音频播放失败:', err, track.audio); hideLoadBar(); }); }
       // EQ 条跳动（模拟）
       const bars=$$('#radioEq span');
       $('#radioEq').classList.add('on');
@@ -2572,6 +2648,25 @@ const Radio = (()=>{
   }
 
   // —— 更新 UI ——
+  // —— 频率刻度盘 ——
+  const FREQ_MIN=87.5, FREQ_MAX=108.0, DIAL_TICKS=21;
+  function buildDial(){
+    const dial=$('#radioDial'); if(!dial || dial.childNodes.length) return;
+    // 21 个刻度，每 3 个为主刻度
+    for(let i=0;i<DIAL_TICKS;i++){
+      const tick=document.createElement('i');
+      if(i%3===0) tick.className='major';
+      dial.appendChild(tick);
+    }
+  }
+  function updateDial(freq){
+    const dial=$('#radioDial'); if(!dial) return;
+    const ratio=(freq-FREQ_MIN)/(FREQ_MAX-FREQ_MIN);
+    const activeIdx=Math.min(DIAL_TICKS-1, Math.max(0, Math.round(ratio*(DIAL_TICKS-1))));
+    Array.from(dial.children).forEach((t,i)=>{
+      t.classList.toggle('active', i===activeIdx);
+    });
+  }
   function updateUI(){
     const t=TRACKS[idx];
     $('#radioFreq').textContent=t.freq.toFixed(1);
@@ -2579,6 +2674,7 @@ const Radio = (()=>{
     $('#radioPhotoDate').textContent=t.date;
     $('#radioPhotoCap').textContent=t.title;
     drawCover(t);
+    updateDial(t.freq);
     $$('#plList li').forEach((li,i)=>li.classList.toggle('active', i===idx));
     $('#rPlay').textContent=playing?'❚❚':'▶';
     $('#rPlay').classList.toggle('play', !playing);
@@ -2676,7 +2772,7 @@ const Radio = (()=>{
   let shown=false;
   function show(){
     if(!shown){
-      shown=true; bind(); buildPlaylist(); updateUI();
+      shown=true; bind(); buildPlaylist(); buildDial(); updateUI();
     } else {
       // 重新显示时若在播放，恢复 EQ
       if(playing) $('#radioEq').classList.add('on');
