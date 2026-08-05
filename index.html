@@ -1742,7 +1742,11 @@ $('#langBtn').addEventListener('click', ()=>{
     Audio.click();
     const ids=MENU.map(m=>m.id);
     const i=ids.indexOf(currentView);
-    let next = (dir==='up'||dir==='left') ? (i-1+ids.length)%ids.length : (i+1)%ids.length;
+    let next;
+    if(dir==='up') next = 0;
+    else if(dir==='down') next = ids.length-1;
+    else if(dir==='left') next = (i-1+ids.length)%ids.length;
+    else next = (i+1)%ids.length;
     selectView(ids[next]);
   }
   $$('.dpadBtn').forEach(b=> b.addEventListener('click', ()=>shift(b.dataset.d)));
