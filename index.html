@@ -6,7 +6,8 @@
 <title>Y2K Rewind · NJZ Pixel Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=DotGothic16&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="preload" href="像素图/_sprite.png" as="image">
 <style>
   :root{
     --denim:#7a99bc;
@@ -50,7 +51,7 @@
   }
   #crt::before{content:"";position:absolute;inset:0;opacity:.05;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    animation:noise 1.2s steps(4) infinite;
+    animation:noise 4s steps(4) infinite;
   }
   @keyframes noise{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(2px,0)}}
 
@@ -195,11 +196,12 @@
     max-width:560px;letter-spacing:.06em}
   #homeMembers{display:flex;gap:18px;margin-top:36px;flex-wrap:wrap;justify-content:center}
   .memberChip{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:none}
-  .memberChip img{width:48px;height:48px;display:block;
+  .memberChip .sprite{width:48px;height:48px;display:block;
+    background-image:url("像素图/_sprite.png");background-size:240px 48px;
     filter:drop-shadow(0 3px 0 rgba(0,0,0,.4));
     transition:transform .28s cubic-bezier(.2,.8,.2,1)}
-  .memberChip.jump img{transform:translateY(-26px) rotate(-4deg)}
-  .memberChip.fall img{transform:translateY(0) rotate(0)}
+  .memberChip.jump .sprite{transform:translateY(-26px) rotate(-4deg)}
+  .memberChip.fall .sprite{transform:translateY(0) rotate(0)}
   .memberChip span{font-family:"Press Start 2P",monospace;font-size:7px;color:var(--cream);letter-spacing:1px}
   #homeHint{position:absolute;bottom:30px;font-family:"VT323",monospace;font-size:18px;
     color:var(--mint-deep);letter-spacing:.2em;animation:pulse 2s ease-in-out infinite}
@@ -600,7 +602,7 @@
     #hudRight{gap:8px}
     #volKnob{width:34px;height:34px}
     #homeMembers{gap:12px}
-    .memberChip img{width:40px;height:40px}
+    .memberChip .sprite{width:40px;height:40px;background-size:200px 40px}
   }
   @media (max-width:420px){
     #shopGrid{grid-template-columns:1fr}
@@ -1382,18 +1384,18 @@ function memberSprite(i){
   return sprites[i] || sprites[0];
 }
 const MEMBERS = [
-  { name:'HAERIN',   img:'像素图/HAERIN.png' },
-  { name:'HYEIN',    img:'像素图/HYEIN.png' },
-  { name:'DANIELLE', img:'像素图/DANIELLE.png' },
-  { name:'HANNI',    img:'像素图/HANNI.png' },
-  { name:'MINJI',    img:'像素图/MINJI.png' },
+  { name:'HAERIN',   pos:0 },
+  { name:'HYEIN',    pos:1 },
+  { name:'DANIELLE', pos:2 },
+  { name:'HANNI',    pos:3 },
+  { name:'MINJI',    pos:4 },
 ];
 (function buildHomeMembers(){
   const wrap=$('#homeMembers');
   MEMBERS.forEach((m,i)=>{
     const chip=document.createElement('div'); chip.className='memberChip';
-    const cv=document.createElement('img'); cv.src=m.img;
-    cv.alt=m.name;
+    const cv=document.createElement('div'); cv.className='sprite';
+    cv.style.backgroundPosition=(-m.pos*48)+'px 0';
     const span=document.createElement('span'); span.textContent=m.name;
     chip.appendChild(cv); chip.appendChild(span);
     chip.addEventListener('click', ()=>{
