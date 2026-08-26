@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-<link rel="preload" href="像素图/_sprite.png" as="image">
 <style>
   :root{
     --denim:#7a99bc;
@@ -149,15 +148,15 @@
   @keyframes clockBlink{50%{opacity:.3}}
 
   /* 缩小状态 D-pad */
-  #phoneDpad{position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);
-    display:flex;flex-direction:column;align-items:center;gap:3px;
+  #phoneDpad{position:absolute;top:74%;left:50%;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:4px;
     opacity:0;transition:opacity .2s ease;z-index:4}
   #phone:not(.open) #phoneDpad{opacity:1}
   #phone.open #phoneDpad{display:none}
-  .dpadRow{display:flex;gap:3px}
-  .dpadBtn{width:22px;height:18px;background:#2a3146;border:2px solid var(--denim);
-    color:var(--cream);font-size:8px;display:flex;align-items:center;justify-content:center;
-    cursor:none;line-height:1;padding:0}
+  .dpadRow{display:flex;gap:4px}
+  .dpadBtn{width:28px;height:22px;background:#2a3146;border:2px solid var(--denim);
+    color:var(--cream);font-size:11px;display:flex;align-items:center;justify-content:center;
+    cursor:none;line-height:1;padding:0;font-family:"Press Start 2P",monospace}
   .dpadBtn:active{transform:translateY(1px);background:var(--denim-deep)}
   #menuGrid{position:absolute;bottom:8px;left:8px;right:8px;top:50%;
     display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px;
@@ -171,6 +170,21 @@
   .menuItem.active{background:var(--pink-deep);border-color:var(--cream)}
   .menuItem canvas{width:30px;height:30px}
   .menuItem span{font-family:"Press Start 2P",monospace;font-size:6px;color:var(--cream);letter-spacing:.5px;text-align:center}
+
+  /* 放大后屏幕上飘动的像素音符 */
+  #phoneNotes{position:absolute;top:40px;left:8px;right:8px;bottom:50%;
+    pointer-events:none;overflow:hidden;opacity:0;
+    transition:opacity .25s ease .15s;z-index:3}
+  #phone.open #phoneNotes{opacity:1}
+  .pNote{position:absolute;image-rendering:pixelated;
+    will-change:transform,opacity;animation:pNoteFloat linear infinite}
+  @keyframes pNoteFloat{
+    0%{transform:translateY(18px) translateX(0) rotate(0deg);opacity:0}
+    12%{opacity:.9}
+    50%{transform:translateY(-40px) translateX(6px) rotate(8deg);opacity:1}
+    85%{opacity:.9}
+    100%{transform:translateY(-96px) translateX(-6px) rotate(-6deg);opacity:0}
+  }
 
   /* ============ 雪花过渡 ============ */
   #snow{position:fixed;inset:0;z-index:110;pointer-events:none;opacity:0;
@@ -196,8 +210,8 @@
     max-width:560px;letter-spacing:.06em}
   #homeMembers{display:flex;gap:18px;margin-top:36px;flex-wrap:wrap;justify-content:center}
   .memberChip{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:none}
-  .memberChip .sprite{width:48px;height:48px;display:block;
-    background-image:url("像素图/_sprite.png");background-size:240px 48px;
+  .memberChip .sprite{width:48px;height:64px;display:block;
+    image-rendering:pixelated;
     filter:drop-shadow(0 3px 0 rgba(0,0,0,.4));
     transition:transform .28s cubic-bezier(.2,.8,.2,1)}
   .memberChip.jump .sprite{transform:translateY(-26px) rotate(-4deg)}
@@ -405,7 +419,7 @@
     width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #f0e0c0, #4a3a28);
     box-shadow:0 1px 1px rgba(0,0,0,.5)}
   /* 皮肤切换按钮 */
-  #radioSkinBtn{position:absolute;left:10px;bottom:10px;width:30px;height:30px;
+  #radioSkinBtn{position:absolute;right:10px;top:10px;width:30px;height:30px;
     background:radial-gradient(circle at 30% 30%, var(--skin-l), var(--skin-d) 80%);
     border:2px solid var(--ink);border-radius:50%;
     color:var(--cream);font-size:16px;line-height:1;padding:0;cursor:none;z-index:6;
@@ -561,9 +575,9 @@
     94%{transform:translateX(-52%)}
     96%{transform:translateX(-49%) translateY(-1px)}
   }
-  #aboutSub{position:absolute;top:calc(20px + clamp(34px,5vw,60px));left:50%;transform:translateX(-50%);
-    font-family:"VT323",monospace;font-size:18px;color:rgba(255,255,255,.7);
-    letter-spacing:.3em;z-index:5}
+  #aboutSub{position:absolute;top:32px;left:50%;transform:translateX(-50%);
+    font-family:"VT323",monospace;font-size:22px;color:rgba(255,255,255,.85);
+    letter-spacing:.3em;z-index:5;text-shadow:0 0 8px rgba(230,174,187,.5)}
   #aboutDesk{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
     display:flex;flex-direction:column;align-items:center;gap:8px;z-index:60}
   #aboutHint{font-family:"VT323",monospace;font-size:16px;color:rgba(255,255,255,.8);
@@ -645,7 +659,7 @@
     #hudRight{gap:8px}
     #volKnob{width:34px;height:34px}
     #homeMembers{gap:12px}
-    .memberChip .sprite{width:40px;height:40px;background-size:200px 40px}
+    .memberChip .sprite{width:40px;height:54px}
   }
   @media (max-width:420px){
     #shopGrid{grid-template-columns:1fr}
@@ -853,8 +867,7 @@
 
       <!-- ABOUT · 禁止离开 -->
       <div class="view" id="viewAbout">
-        <div id="aboutBanner">禁 止 离 开</div>
-        <div id="aboutSub">DO NOT LEAVE · NJZ PIXEL ARCHIVE</div>
+        <div id="aboutSub">NJZ PIXEL ARCHIVE</div>
         <div id="aboutDesk">
           <div id="aboutHint">关闭这些弹窗 · 它们会再回来 · 就像回忆一样</div>
           <button id="aboutSpawn" class="pixelBtn">SPAWN MORE</button>
@@ -876,6 +889,8 @@
         <div id="phoneTopBar">
           <div id="phoneClockBig">--:--:--</div>
         </div>
+        <!-- 放大后屏幕上飘动的像素音符 -->
+        <div id="phoneNotes"></div>
         <!-- 缩小状态 D-pad -->
         <div id="phoneDpad">
           <button class="dpadBtn" data-d="up">▲</button>
@@ -1331,7 +1346,7 @@ Boot.start();
 // 调色键: k=描边 h=头发主色 s=肤色 e=眼睛 j=上衣主色 J=上衣副色 p=裤子 b=耳机 w=白 r=红
 function memberSprite(i){
   const sprites = [
-    // 0 MINJI · 黑色长发 + 蓝色耳机 + 蓝白拼接棒球服 + 右手比耶
+    // 0 HAERIN · 金色中发 + 粉色耳机 + 白色露脐上衣 + 叉腰
     [
       "...bbbb....",
       "..bhhhhb...",
@@ -1340,28 +1355,28 @@ function memberSprite(i){
       "..ksekes...",
       "..kssssk...",
       "...ksssk...",
-      ".swjjjjws..",
-      ".wwjjjjww..",
-      ".wwjrrjww..",
-      "..wjjjjw...",
+      "..swwwws...",
+      ".swwwwwws..",
+      "..sssss....",
+      "..pppppp...",
       "..pppppp...",
       "..pppppp...",
       "..pppppp...",
       "..ss..ss...",
       "...kk......",
     ],
-    // 1 HANNI · 黑色长发齐刘海 + 粉色耳机 + 粉白花纹上衣
+    // 1 HYEIN · 深棕长发 + 粉色耳机 + 粉色外套
     [
       "...bbbb....",
       "..bhhhhb...",
       ".bhhhhhhb..",
-      ".kkkkkkkk..",
+      ".bhhhhhhb..",
       "..ksekes...",
       "..kssssk...",
       "...ksssk...",
       "..sjjjjs...",
       ".sjjjjjjs..",
-      ".sJJJJJJs..",
+      ".sjjjjjjs..",
       "..jjjjjj...",
       "..pppppp...",
       "..pppppp...",
@@ -1388,26 +1403,26 @@ function memberSprite(i){
       "..ss..ss...",
       "...kk......",
     ],
-    // 3 HAERIN · 金色中发 + 粉色耳机 + 白色露脐上衣 + 叉腰
+    // 3 HANNI · 黑色长发齐刘海 + 粉色耳机 + 粉白花纹上衣
     [
       "...bbbb....",
       "..bhhhhb...",
       ".bhhhhhhb..",
-      ".bhhhhhhb..",
+      ".kkkkkkkk..",
       "..ksekes...",
       "..kssssk...",
       "...ksssk...",
-      "..swwwws...",
-      ".swwwwwws..",
-      "..sssss....",
-      "..pppppp...",
+      "..sjjjjs...",
+      ".sjjjjjjs..",
+      ".sJJJJJJs..",
+      "..jjjjjj...",
       "..pppppp...",
       "..pppppp...",
       "..pppppp...",
       "..ss..ss...",
       "...kk......",
     ],
-    // 4 HYEIN · 深棕长发 + 粉色耳机 + 粉色外套
+    // 4 MINJI · 黑色长发 + 蓝色耳机 + 蓝白拼接棒球服 + 右手比耶
     [
       "...bbbb....",
       "..bhhhhb...",
@@ -1416,10 +1431,10 @@ function memberSprite(i){
       "..ksekes...",
       "..kssssk...",
       "...ksssk...",
-      "..sjjjjs...",
-      ".sjjjjjjs..",
-      ".sjjjjjjs..",
-      "..jjjjjj...",
+      ".swjjjjws..",
+      ".wwjjjjww..",
+      ".wwjrrjww..",
+      "..wjjjjw...",
       "..pppppp...",
       "..pppppp...",
       "..pppppp...",
@@ -1429,19 +1444,32 @@ function memberSprite(i){
   ];
   return sprites[i] || sprites[0];
 }
+// 各成员调色板（按 HAERIN/HYEIN/DANIELLE/HANNI/MINJI 顺序）
+const MEMBER_PALS = [
+  // 0 HAERIN · 金发 + 粉耳机 + 白上衣
+  { k:'#1a1d28', h:'#d8a050', s:'#f0d2b0', e:'#1a1d28', j:'#f3ead4', J:'#f3ead4', p:'#3e5470', b:'#e6aebb', w:'#ffffff', r:'#c84444' },
+  // 1 HYEIN · 深棕发 + 粉耳机 + 粉外套
+  { k:'#1a1d28', h:'#3a2a1a', s:'#f0d2b0', e:'#1a1d28', j:'#e6aebb', J:'#f3ead4', p:'#3e5470', b:'#e6aebb', w:'#ffffff', r:'#c84444' },
+  // 2 DANIELLE · 棕发 + 粉耳机 + 蓝牛仔
+  { k:'#1a1d28', h:'#6b4226', s:'#f0d2b0', e:'#1a1d28', j:'#4a78a8', J:'#1a1d28', p:'#3e5470', b:'#e6aebb', w:'#ffffff', r:'#c84444' },
+  // 3 HANNI · 黑发齐刘海 + 粉耳机 + 粉白上衣
+  { k:'#1a1d28', h:'#2a1a14', s:'#f0d2b0', e:'#1a1d28', j:'#e6aebb', J:'#f3ead4', p:'#3e5470', b:'#e6aebb', w:'#ffffff', r:'#c84444' },
+  // 4 MINJI · 黑发 + 蓝耳机 + 蓝白棒球服
+  { k:'#1a1d28', h:'#2a1a14', s:'#f0d2b0', e:'#1a1d28', j:'#4a78a8', J:'#f3ead4', p:'#3e5470', b:'#4a78a8', w:'#ffffff', r:'#c84444' },
+];
 const MEMBERS = [
-  { name:'HAERIN',   pos:0 },
-  { name:'HYEIN',    pos:1 },
-  { name:'DANIELLE', pos:2 },
-  { name:'HANNI',    pos:3 },
-  { name:'MINJI',    pos:4 },
+  { name:'HAERIN' },
+  { name:'HYEIN' },
+  { name:'DANIELLE' },
+  { name:'HANNI' },
+  { name:'MINJI' },
 ];
 (function buildHomeMembers(){
   const wrap=$('#homeMembers');
   MEMBERS.forEach((m,i)=>{
     const chip=document.createElement('div'); chip.className='memberChip';
-    const cv=document.createElement('div'); cv.className='sprite';
-    cv.style.backgroundPosition=(-m.pos*48)+'px 0';
+    const cv=makePixelCanvas(memberSprite(i), MEMBER_PALS[i], 4);
+    cv.className='sprite';
     const span=document.createElement('span'); span.textContent=m.name;
     chip.appendChild(cv); chip.appendChild(span);
     chip.addEventListener('click', ()=>{
@@ -1509,6 +1537,70 @@ const ICON_MAPS = {
     Audio.click();
     $('#phone').classList.remove('open');
   });
+})();
+
+/* =========================================================
+ *  放大后手机屏幕 · 飘动的像素音符
+ * ======================================================= */
+const PHONE_NOTE_MAPS = [
+  // 单音符 ♪
+  ['..X.',
+   '..X.',
+   '..X.',
+   'XXXX',
+   'XXXX',
+   '.XX.'],
+  // 双连音符 ♫
+  ['X..X',
+   'X..X',
+   'X..X',
+   'X..X',
+   'XXXX',
+   'XXXX'],
+  // 四分音符 ♩
+  ['..X',
+   '..X',
+   '..X',
+   '..X',
+   'XXX',
+   'XXX'],
+  // 双尾连音符
+  ['X..X.',
+   'X..X.',
+   'X..X.',
+   'XXXXX',
+   'XXXXX',
+   '.X.X.']
+];
+const PHONE_NOTE_PALS = [
+  { X:'#e6aebb' }, // pink
+  { X:'#a6cab0' }, // mint
+  { X:'#f3ead4' }, // cream
+  { X:'#7a99bc' }, // denim
+];
+(function buildPhoneNotes(){
+  const wrap=$('#phoneNotes'); if(!wrap) return;
+  const COUNT=8;
+  for(let i=0;i<COUNT;i++){
+    const mi=Math.floor(Math.random()*PHONE_NOTE_MAPS.length);
+    const ci=Math.floor(Math.random()*PHONE_NOTE_PALS.length);
+    const scale=2+Math.floor(Math.random()*3); // 2~4 大小不一
+    const map=PHONE_NOTE_MAPS[mi];
+    const w=map[0].length*scale, h=map.length*scale;
+    const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+    cv.className='pNote';
+    drawPixels(cv.getContext('2d'), map, PHONE_NOTE_PALS[ci], 0, 0, scale);
+    // 随机位置与时长
+    cv.style.left=(Math.random()*100)+'%';
+    cv.style.top=(20+Math.random()*60)+'%';
+    cv.style.marginLeft=-(w/2)+'px';
+    const dur=3.2+Math.random()*3.5; // 3.2~6.7s
+    const delay=Math.random()*4;
+    cv.style.animationDuration=dur+'s';
+    cv.style.animationDelay=(-delay)+'s';
+    cv.style.width=w+'px'; cv.style.height=h+'px';
+    wrap.appendChild(cv);
+  }
 })();
 
 /* =========================================================
@@ -2215,7 +2307,7 @@ const MV = (()=>{
     if(e.key==='ArrowUp'||e.key==='w'||e.key==='W'||e.code==='Space'){ keys.up=true; e.preventDefault(); }
     if(e.key==='ArrowDown'||e.key==='s'||e.key==='S'){ keys.down=true; e.preventDefault(); }
     if(e.key==='x'||e.key==='X'){ e.preventDefault(); if(state==='play') keys.shoot=true; }
-    if(e.key==='Enter'){ e.preventDefault(); if(state!=='play') beginPlay(); }
+    if(e.key==='Enter'){ e.preventDefault(); if(state==='play') keys.shoot=true; else beginPlay(); }
     if((e.key==='r'||e.key==='R') && state!=='play'){ reset(); beginPlay(); }
   });
   addEventListener('keyup', e=>{
@@ -2223,7 +2315,7 @@ const MV = (()=>{
     if(e.key==='ArrowRight'||e.key==='d'||e.key==='D') keys.right=false;
     if(e.key==='ArrowUp'||e.key==='w'||e.key==='W'||e.code==='Space') keys.up=false;
     if(e.key==='ArrowDown'||e.key==='s'||e.key==='S') keys.down=false;
-    if(e.key==='x'||e.key==='X') keys.shoot=false;
+    if(e.key==='x'||e.key==='X'||e.key==='Enter') keys.shoot=false;
   });
   $$('.mvBtn').forEach(b=>{
     const k=b.dataset.k;
@@ -2340,7 +2432,7 @@ const Radio = (()=>{
       cover:'封面图片/f9eab3326b15ba9713d75d82b104d689.png', audio:'ditto.mp3',
       palette:['#3e5470','#c98490','#f3ead4'], bpm:82,  scale:[0,3,5,7,10,12,15], root:220.00 },
     { title:'NewJeans', artist:'NJZ', date:'2024.10.18', freq:90.5, dur:'3:14',
-      cover:'F5441CCE56ADFAAC3BA14FB7B577867F.jpg', audio:'newjeans.mp3',
+      cover:'封面图片/98bab7e3cc90e35e0ac5f0b4cda12929.jpg', audio:'newjeans.mp3',
       palette:['#3e5470','#e6aebb','#a6cab0'], bpm:96, scale:[0,2,3,5,7,9,10], root:277.18 },
     { title:'Attention',  artist:'NJZ', date:'2022.07.22', freq:92.3, dur:'2:58',
       cover:'20220324212123_66c37.jpg',
@@ -2789,7 +2881,7 @@ const Wall = (()=>{
     { src:'封面图片/988f13f51e389368226e482dbc886f8e~tplv-be4g95zd3a-448x448.jpg', date:'2022.07.22', cap:'Attention · 练习室' },
     { src:'封面图片/bde79e69154e04aa07a7114008076231~tplv-be4g95zd3a-448x448.jpg', date:'2022.07.28', cap:'Hype Boy · 街拍' },
     { src:'封面图片/f9eab3326b15ba9713d75d82b104d689.png',                          date:'2023.01.02', cap:'Ditto · 冬夜' },
-    { src:'封面图片/专辑.jpg',                                                    date:'2023.07.07', cap:'Super Shy · 伦敦' },
+    { src:'封面图片/98bab7e3cc90e35e0ac5f0b4cda12929.jpg',                          date:'2023.07.07', cap:'Super Shy · 伦敦' },
     { src:'封面图片/dcb2a1640008438add3e0cb75c8d9ac2~tplv-be4g95zd3a-448x448.jpg', date:'2024.05.24', cap:'How Sweet · 5月' },
     { src:'封面图片/fa1dbbc75e6a0dc2887bba48d07e637e~tplv-a9rns2rl98-pc_smart_face_crop-v1_512_384.jpg', date:'2024.08.16', cap:'NJZ · 工作室' },
   ];
